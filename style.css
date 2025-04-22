@@ -1,0 +1,255 @@
+/* style.css - تنسيقات بسيطة لتطبيق قائمة المهام */
+
+/* التنسيقات الأساسية */
+:root {
+    --primary-color: #4caf50;
+    --secondary-color: #03a9f4;
+    --text-color: #333;
+    --light-gray: #f5f5f5;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #9e9e9e;
+    --danger-color: #f44336;
+    --border-radius: 4px;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* حاوية التطبيق */
+.todoapp {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin: 40px auto;
+    max-width: 550px;
+    position: relative;
+}
+
+/* الرأس */
+.header {
+    padding: 20px;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.header h1 {
+    color: var(--primary-color);
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 20px;
+    text-align: center;
+}
+
+.new-todo {
+    background-color: white;
+    border: 2px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 12px 15px;
+    width: 100%;
+    transition: border-color 0.3s;
+}
+
+.new-todo:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* القسم الرئيسي */
+.main {
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+/* قائمة المهام */
+.todo-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.todo-list li {
+    border-bottom: 1px solid var(--medium-gray);
+    font-size: 16px;
+    position: relative;
+}
+
+.todo-list li:last-child {
+    border-bottom: none;
+}
+
+.todo-list li.completed .view label {
+    color: var(--dark-gray);
+    text-decoration: line-through;
+}
+
+.toggle {
+    appearance: none;
+    background-color: white;
+    border: 2px solid var(--medium-gray);
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    margin-right: 12px;
+    position: relative;
+    top: 0;
+    vertical-align: middle;
+    width: 20px;
+}
+
+.toggle:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.toggle:checked::after {
+    content: "✓";
+    color: white;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    left: 4px;
+    position: absolute;
+    top: -3px;
+}
+
+.view {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.view label {
+    flex-grow: 1;
+    word-break: break-word;
+}
+
+.destroy {
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.destroy::before {
+    content: "×";
+}
+
+.todo-list li:hover .destroy {
+    opacity: 1;
+}
+
+.edit {
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    padding: 12px 15px;
+    margin: 10px 0;
+    width: calc(100% - 30px);
+    display: block;
+    margin: 12px auto;
+}
+
+.editing .view {
+    display: none;
+}
+
+/* التذييل */
+.footer {
+    color: var(--dark-gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    text-align: center;
+}
+
+.todo-count {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.todo-count strong {
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.filters {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.filters li {
+    margin: 0 8px;
+}
+
+.filters a {
+    border-radius: 3px;
+    color: var(--dark-gray);
+    padding: 4px 8px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.filters a:hover {
+    color: var(--text-color);
+}
+
+.filters a.selected {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.clear-completed {
+    background: none;
+    border: none;
+    color: var(--dark-gray);
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.clear-completed:hover {
+    color: var(--danger-color);
+}
+
+/* تنسيقات إضافية حسب حجم الشاشة */
+@media (max-width: 600px) {
+    .todoapp {
+        border-radius: 0;
+        margin: 0;
+        max-width: 100%;
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filters {
+        order: -1;
+        margin-bottom: 10px;
+    }
+
+    .todo-count {
+        order: 1;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .clear-completed {
+        order: 2;
+    }
+}
