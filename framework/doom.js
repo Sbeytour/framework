@@ -1,4 +1,4 @@
-import { createElement } from "./hooks.js"
+import { cleanupEffects, createElement, resetHookIndex } from "./hooks.js"
 
 function createElement(vnode) {
     if (typeof vnode === 'string' || typeof vnode === 'number') {
@@ -65,4 +65,47 @@ function setAttribute(element, attrs) {
     }
 }
 
-export { createElement }
+let currentVnode = null
+let componentFn = null
+let rootcontainer = null
+
+function render(mainComponent, container) {
+    componentFn = mainComponent
+    rootcontainer = container
+
+    resetHookIndex()
+
+    const newVNode = componentFn()
+
+    container.innerHTML = ''
+    const element = createElement(newVNode)
+    container.appendChild(element)
+
+    currentVnode = newVNode
+}
+
+
+function rerender() {
+    if (!componentFn || !rootcontainer) return
+
+    resetHookIndex()
+
+    const newVNode = componentFn()
+
+    //add the diffing
+
+    currentVnode = newVNode
+}
+
+function unmount() {
+    if (rootcontainer) {
+        rootcontainer.innerHTML = ''
+
+        cleanupEffects()
+
+        componentFn = null
+        rootcontainer = null
+        currentVnode = null
+    }
+}
+export { createElement, render, rerender, unmount }
