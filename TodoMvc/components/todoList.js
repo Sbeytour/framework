@@ -1,9 +1,11 @@
-function TodoList({ todos, toggleTodo, toggleAll, deleteTodo, editTodo, toggleEditing }) {
+function TodoList({ todos, filteredTodos, toggleTodo, toggleAll, deleteTodo, editTodo, toggleEditing }) {
+    // const allCompleted = filteredTodos.length > 0 && filteredTodos.every(todo => todo.completed);
+
     return {
         tag: 'main',
         attrs: {
             class: 'main',
-            'data-tested': 'main'
+            'data-testid': 'main'
         },
         children: [
             todos.length > 0 ? {
@@ -18,11 +20,11 @@ function TodoList({ todos, toggleTodo, toggleAll, deleteTodo, editTodo, toggleEd
                             class: 'toggle-all',
                             type: 'checkbox',
                             id: 'toggle-all',
-                            'data-testid': 'toggle-all',
-                            // checked: allCompleted
+                            "data-testid": "toggle-all",
+                            // checked: allCompleted,
                             // onChange: (e) => toggleAll(e.target.checked)
                         },
-                        children: []
+                        children: ['Mark all as complete']
                     },
                     {
                         tag: 'label',
@@ -59,8 +61,29 @@ function TodoList({ todos, toggleTodo, toggleAll, deleteTodo, editTodo, toggleEd
 function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
     let isSubmitting = false
 
+    const handleToggle = () => {
+        toggleTodo(todo.id)
+    }
+
+    const handleDoubleClick = () => {
+        toggleEditing(todo.id, true)
+        setTimeout(() => {
+            const input = document.querySelector('[data-testid="todo-item-edit-input"]')
+            if (input) input.focus()
+        }, 0)
+    }
+
+    const handleDelete = () => {
+        deleteTodo(todo.id)
+    }
+
+    const handleBlur = () => {
+        if (isSubmitting) return
+        toggleEditing(todo.id, false)
+    }
+
     const handleEdit = (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === "Enter") {
             const value = e.target.value.trim()
             if (value.length > 2) {
                 isSubmitting = true
@@ -70,27 +93,6 @@ function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
                 }, 0)
             }
         }
-    }
-
-    const handleDoubleClick = () => {
-        toggleEditing(todo.id, true)
-        setTimeout(() => {
-            const input = document.querySelector('[data-testid="todo-item-edit-input"]')
-            if (input) input, focus()
-        }, 0)
-    }
-
-    const handleBlur = () => {
-        if (isSubmitting) return
-        toggleEditing(todo.id, false)
-    }
-
-    const handleToggle = () => {
-        toggleTodo(todo.id)
-    }
-
-    const handleDelete = () => {
-        deleteTodo(todo.id)
     }
 
     return {
@@ -109,7 +111,7 @@ function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
                     {
                         tag: 'div',
                         attrs: {
-                            class: 'input-container'
+                            class: 'input-container',
                         },
                         children: [
                             {
@@ -118,12 +120,12 @@ function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
                                     class: 'new-todo',
                                     id: 'todo-edit-input',
                                     type: 'text',
-                                    'data-testid': 'todo-item-edit-input',
+                                    "data-testid": "todo-item-edit-input",
                                     autofocus: true,
-                                    palceHolder: 'Edit todo',
+                                    placeHolder: 'Edit todo',
                                     defaultValue: todo.text,
-                                    onkeyDown: handleEdit,
-                                    onBlur: handleBlur
+                                    onKeyDown: handleEdit,
+                                    onBlur: handleBlur,
                                 },
                                 children: []
                             },
@@ -143,16 +145,16 @@ function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
                         attrs: {
                             class: 'toggle',
                             type: 'checkbox',
-                            'data-testid': 'todo-item-toggle',
+                            'data-testid': "todo-item-toggle",
                             checked: todo.completed,
-                            onChange: handleToggle,
+                            onChange: handleToggle
                         },
                         children: []
                     },
                     {
-                        tag: 'lebel',
+                        tag: 'label',
                         attrs: {
-                            'data-testid': 'todo-item-label',
+                            "data-testid": "todo-item-label",
                             ondblclick: handleDoubleClick,
                         },
                         children: [todo.text]
@@ -161,7 +163,7 @@ function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
                         tag: 'button',
                         attrs: {
                             class: 'destroy',
-                            'data-testid': 'todo-item-button',
+                            "data-testid": "todo-item-button",
                             onClick: handleDelete
                         },
                         children: []

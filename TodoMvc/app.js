@@ -53,7 +53,7 @@ function TodoApp() {
     }
 
     return {
-        tag: 'fragement',
+        tag: 'fragment',
         attrs: {},
         children: [
             {

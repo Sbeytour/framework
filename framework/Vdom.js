@@ -1,13 +1,14 @@
+import { diff } from "./diffing.js"
 import { cleanupEffects, resetHookIndex, runEffects } from "./hooks.js"
 
 
-let currentVnode = null
+let currentVNode = null
 let componentFn = null
-let rootcontainer = null
+let rootContainer = null
 
 function render(mainComponent, container) {
     componentFn = mainComponent
-    rootcontainer = container
+    rootContainer = container
 
     resetHookIndex()
 
@@ -17,35 +18,35 @@ function render(mainComponent, container) {
     const element = createElement(newVNode)
     container.appendChild(element)
 
-    currentVnode = newVNode
+    currentVNode = newVNode
 
     setTimeout(runEffects, 0);
 }
 
 
 function rerender() {
-    if (!componentFn || !rootcontainer) return
+    if (!componentFn || !rootContainer) return
 
     resetHookIndex()
 
     const newVNode = componentFn()
 
-    //add the diffing
+    diff(rootContainer, currentVNode, newVNode, 0);
 
-    currentVnode = newVNode
+    currentVNode = newVNode
 
     setTimeout(runEffects, 0);
 }
 
 function unmount() {
-    if (rootcontainer) {
-        rootcontainer.innerHTML = ''
+    if (rootContainer) {
+        rootContainer.innerHTML = ''
 
         cleanupEffects()
 
         componentFn = null
-        rootcontainer = null
-        currentVnode = null
+        rootContainer = null
+        currentVNode = null
     }
 }
 
@@ -63,7 +64,7 @@ function createElement(vnode) {
         return createElement(result)
     }
 
-    if (vnode.tag === 'fragement') {
+    if (vnode.tag === 'fragment') {
         const fargementCont = document.createDocumentFragment()
         if (vnode.children) {
             vnode.children.forEach(child => {
