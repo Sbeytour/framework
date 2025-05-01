@@ -1,4 +1,4 @@
-import { createElement } from "./Vdom.js";
+import { createElement } from "./vdom.js";
 
 function diff(parentDom, oldVNode, newVNode, index = 0) {
     if (!newVNode && !oldVNode) return;

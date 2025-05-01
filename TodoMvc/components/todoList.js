@@ -1,5 +1,5 @@
 function TodoList({ todos, filteredTodos, toggleTodo, toggleAll, deleteTodo, editTodo, toggleEditing }) {
-    // const allCompleted = filteredTodos.length > 0 && filteredTodos.every(todo => todo.completed);
+    const allCompleted = filteredTodos.length > 0 && filteredTodos.every(todo => todo.completed);
 
     return {
         tag: 'main',
@@ -8,7 +8,7 @@ function TodoList({ todos, filteredTodos, toggleTodo, toggleAll, deleteTodo, edi
             'data-testid': 'main'
         },
         children: [
-            todos.length > 0 ? {
+            todos.length > 0 && filteredTodos.length > 0 ? {
                 tag: 'div',
                 attrs: {
                     class: 'toggle-all-container'
@@ -21,8 +21,8 @@ function TodoList({ todos, filteredTodos, toggleTodo, toggleAll, deleteTodo, edi
                             type: 'checkbox',
                             id: 'toggle-all',
                             "data-testid": "toggle-all",
-                            // checked: allCompleted,
-                            // onChange: (e) => toggleAll(e.target.checked)
+                            checked: allCompleted,
+                            onChange: (e) => toggleAll(e.target.checked)
                         },
                         children: ['Mark all as complete']
                     },
@@ -42,7 +42,7 @@ function TodoList({ todos, filteredTodos, toggleTodo, toggleAll, deleteTodo, edi
                     class: 'todo-list',
                     'data-testid': 'todo-list'
                 },
-                children: todos.map(todo => ({
+                children: filteredTodos.map(todo => ({
                     component: TodoItem,
                     props: {
                         key: todo.id,
@@ -55,45 +55,48 @@ function TodoList({ todos, filteredTodos, toggleTodo, toggleAll, deleteTodo, edi
                 }))
             }
         ]
-    }
+    };
 }
 
 function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
-    let isSubmitting = false
+    let isSubmitting = false;
 
     const handleToggle = () => {
-        toggleTodo(todo.id)
-    }
+        toggleTodo(todo.id);
+    };
 
     const handleDoubleClick = () => {
-        toggleEditing(todo.id, true)
+        toggleEditing(todo.id, true);
         setTimeout(() => {
-            const input = document.querySelector('[data-testid="todo-item-edit-input"]')
-            if (input) input.focus()
-        }, 0)
+            const input = document.querySelector('[data-testid="todo-item-edit-input"]');
+            if (input) {
+                input.focus()
+                input.selectionStart = input.selectionEnd = input.value.length
+            }
+        }, 0);
     }
 
     const handleDelete = () => {
-        deleteTodo(todo.id)
-    }
+        deleteTodo(todo.id);
+    };
 
     const handleBlur = () => {
-        if (isSubmitting) return
-        toggleEditing(todo.id, false)
+        if (isSubmitting) return;
+        toggleEditing(todo.id, false);
     }
 
     const handleEdit = (e) => {
         if (e.key === "Enter") {
-            const value = e.target.value.trim()
+            const value = e.target.value.trim();
             if (value.length > 2) {
-                isSubmitting = true
-                editTodo(todo.id, value, false)
+                isSubmitting = true;
+                editTodo(todo.id, value, false);
                 setTimeout(() => {
-                    isSubmitting = false
-                }, 0)
+                    isSubmitting = false;
+                }, 0);
             }
         }
-    }
+    };
 
     return {
         tag: 'li',
@@ -171,7 +174,7 @@ function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
                 ]
             }
         ]
-    }
+    };
 }
 
 export { TodoList }

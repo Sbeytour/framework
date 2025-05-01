@@ -1,13 +1,13 @@
 function TodoHeader({ addTodo }) {
-    const handlesubmit = (e) => {
+    const handleSubmit = (e) => {
         if (e.key === "Enter") {
-            const value = e.target.value.trim()
+            const value = e.target.value.trim();
             if (value.length > 2) {
-                addTodo(value)
-                e.target.value = ''
+                addTodo(value);
+                e.target.value = '';
             }
         }
-    }
+    };
 
     return {
         tag: 'header',
@@ -34,8 +34,9 @@ function TodoHeader({ addTodo }) {
                             id: 'todo-input',
                             type: 'text',
                             'data-testid': 'text-input',
+                            autofocus: true,
                             placeholder: 'What needs to be done?',
-                            onkeydown: handlesubmit
+                            onkeydown: handleSubmit,
                         },
                         children: []
                     },
@@ -48,10 +49,9 @@ function TodoHeader({ addTodo }) {
                         children: ['New Todo Input']
                     }
                 ]
-
             }
         ]
-    }
+    };
 }
 
 export { TodoHeader }
