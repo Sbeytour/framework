@@ -24,7 +24,7 @@ function TodoList({ todos, filteredTodos, toggleTodo, toggleAll, deleteTodo, edi
                             checked: allCompleted,
                             onChange: (e) => toggleAll(e.target.checked)
                         },
-                        children: ['Mark all as complete']
+                        children: []
                     },
                     {
                         tag: 'label',
@@ -71,7 +71,7 @@ function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
             const input = document.querySelector('[data-testid="todo-item-edit-input"]');
             if (input) {
                 input.focus()
-                input.selectionStart = input.selectionEnd = input.value.length
+                input.selectionStart = input.value.length
             }
         }, 0);
     }
@@ -88,12 +88,9 @@ function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
     const handleEdit = (e) => {
         if (e.key === "Enter") {
             const value = e.target.value.trim();
-            if (value.length > 2) {
+            if (value.length > 1) {
                 isSubmitting = true;
                 editTodo(todo.id, value, false);
-                setTimeout(() => {
-                    isSubmitting = false;
-                }, 0);
             }
         }
     };
@@ -124,8 +121,6 @@ function TodoItem({ todo, toggleTodo, deleteTodo, editTodo, toggleEditing }) {
                                     id: 'todo-edit-input',
                                     type: 'text',
                                     "data-testid": "todo-item-edit-input",
-                                    autofocus: true,
-                                    placeHolder: 'Edit todo',
                                     defaultValue: todo.text,
                                     onKeyDown: handleEdit,
                                     onBlur: handleBlur,

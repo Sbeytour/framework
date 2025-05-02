@@ -77,11 +77,6 @@ function createElement(vnode) {
 
     const element = document.createElement(vnode.tag);
 
-    // Set element key for tracking (stored as a data attribute)
-    if (vnode.attrs && vnode.attrs.key) {
-        element.setAttribute('data-key', vnode.attrs.key);
-    }
-
     if (vnode.attrs) {
         setAttributes(element, vnode.attrs);
     }

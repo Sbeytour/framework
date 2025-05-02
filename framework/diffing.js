@@ -56,7 +56,6 @@ function diff(parentDom, oldVNode, newVNode, index = 0) {
         parentDom.appendChild(createElement(newVNode));
         return;
     }
-    console.log(parentDom.childNodes[index])
 
     const domNode = parentDom.childNodes[index];
     if (!domNode) {

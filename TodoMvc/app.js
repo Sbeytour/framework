@@ -21,8 +21,6 @@ function TodoApp() {
         const handleHashChange = () => {
             const hash = window.location.hash.replace('#/', '') || FILTERS.ALL;
             if (Object.values(FILTERS).includes(hash)) {
-                console.log(`Hash changed to: ${hash}`);
-
                 setFilter(hash);
             }
         };
@@ -38,11 +36,6 @@ function TodoApp() {
             window.removeEventListener('hashchange', handleHashChange);
         };
     }, []);
-
-    useEffect(() => {
-        const hash = filter === FILTERS.ALL ? '' : filter;
-        window.location.hash = hash ? `#/${hash}` : '#/';
-    }, [filter]);
 
     const handleAddTodo = (text) => {
         setTodos([...todos, { id: generateId(), text, completed: false, editing: false }]);

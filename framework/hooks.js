@@ -9,10 +9,6 @@ const effectDependencies = [];
 const effectCleanups = [];
 let effectIndex = 0;
 
-// Ref management
-const refs = [];
-let refIndex = 0;
-
 // Effect queue for asynchronous execution
 const pendingEffects = [];
 let isFirstRender = true;
@@ -57,7 +53,7 @@ function useEffect(callback, dependencies) {
     }
     // Empty dependencies array means run once (on mount)
     else if (dependencies.length === 0 && prevDependencies.length === 0) {
-        shouldRunEffect = isFirstRender || prevDependencies === undefined;
+        shouldRunEffect = isFirstRender;
     }
     // Different dependency array length
     else if (dependencies.length !== prevDependencies.length) {
@@ -86,23 +82,10 @@ function useEffect(callback, dependencies) {
     effectIndex++;
 }
 
-function useRef(initialValue) {
-    const currentIndex = refIndex;
-
-    // Create ref object if it doesn't exist
-    if (refs[currentIndex] === undefined) {
-        refs[currentIndex] = { current: initialValue };
-    }
-
-    refIndex++;
-    return refs[currentIndex];
-}
-
 // Reset hook indices for next render
 function resetHookIndex() {
     stateIndex = 0;
     effectIndex = 0;
-    refIndex = 0;
 }
 
 function runEffects() {
@@ -128,7 +111,6 @@ function cleanupEffects() {
     states.length = 0;
     effectCleanups.length = 0;
     effectDependencies.length = 0;
-    refs.length = 0;
     pendingEffects.length = 0;
 
     resetHookIndex();
@@ -138,7 +120,6 @@ function cleanupEffects() {
 export {
     useState,
     useEffect,
-    useRef,
     resetHookIndex,
     runEffects,
     cleanupEffects

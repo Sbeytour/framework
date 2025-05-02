@@ -2,7 +2,7 @@ function TodoHeader({ addTodo }) {
     const handleSubmit = (e) => {
         if (e.key === "Enter") {
             const value = e.target.value.trim();
-            if (value.length > 2) {
+            if (value.length > 1) {
                 addTodo(value);
                 e.target.value = '';
             }
