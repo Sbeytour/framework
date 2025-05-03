@@ -1,4 +1,4 @@
-import { render } from "./vdom.js";
+import { addEventListener, removeEventListener, render } from "./vdom.js";
 
 // Store for routing information
 let currentRoutes = [];
@@ -18,14 +18,14 @@ export function initRouter(routes, container, notFound = null) {
     handleRouteChange();
 
     // Listen for popstate events (browser back/forward)
-    window.addEventListener('popstate', handleRouteChange);
+    addEventListener('popstate', window, handleRouteChange);
 
     // Intercept link clicks for internal navigation
-    document.addEventListener('click', handleLinkClick);
+    addEventListener('click', document, handleLinkClick);
 
     return () => {
-        window.removeEventListener('popstate', handleRouteChange);
-        document.removeEventListener('click', handleLinkClick);
+        removeEventListener('popstate', window);
+        removeEventListener('click', document);
     };
 }
 

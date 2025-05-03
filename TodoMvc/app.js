@@ -1,4 +1,4 @@
-import { render } from "../framework/vdom.js";
+import { addEventListener, removeEventListener, render } from "../framework/vdom.js";
 import { useEffect, useState } from "../framework/hooks.js";
 import { TodoFooter } from "./components/todoFooter.js";
 import { TodoHeader } from "./components/todoHeader.js";
@@ -29,11 +29,11 @@ function TodoApp() {
         handleHashChange();
 
         // Listen for hash changes
-        window.addEventListener('hashchange', handleHashChange);
+        addEventListener('hashchange', window, handleHashChange);
 
         // Cleanup
         return () => {
-            window.removeEventListener('hashchange', handleHashChange);
+            removeEventListener('hashchange', window);
         };
     }, []);
 
@@ -171,6 +171,4 @@ function TodoApp() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    render(TodoApp, document.body);
-});
+render(TodoApp, document.body);

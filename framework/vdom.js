@@ -117,4 +117,14 @@ function setAttributes(element, attrs) {
     }
 }
 
-export { createElement, render, rerender, unmount };
+function addEventListener(eventName, element, handler) {
+    eventName = eventName.toLowerCase()
+    element[`on${eventName}`] = handler
+}
+
+function removeEventListener(eventName, element) {
+    eventName = eventName.toLowerCase()
+    element[`on${eventName}`] = null
+}
+
+export { createElement, render, rerender, unmount, addEventListener, removeEventListener };
